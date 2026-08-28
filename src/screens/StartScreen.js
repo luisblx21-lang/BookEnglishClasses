@@ -1,37 +1,52 @@
-import React, {useState, useEffect} from 'react'
-import {View, Text, Image, Pressable, StyleSheet} from 'react-native'
-import EtiquetaNivel from  './EtiquetaNivel'
-import {colors, radius, spacing,typhography} from '. . /theme'
-import { formatearPrecio } from '../data/clases'
-import Ionicons from '@react-native-vector-icons/ionicons'
-import { TextInput } from 'react-native/types_generated/index'
-
-export default function ClasesScreen ({navigation}){
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import EtiquetaNivel from '../components/EtiquetaNivel';
+import {spacing, colors, typhography} from '../theme';
+import {formatearPrecio, CLASES, NIVELES} from '../data/clases';
+import { ScrollView, TextInput } from 'react-native/types_generated/index';
+ 
+ 
+export default function StartScreen({navigation}) {
     const [nivel, setNivel] = useState();
-    const [busqueda, setBusqueda] = useState();
-    return(
+    const [busqueda, setBusqueda] = useState('');
+ 
+    return (
         <view>
-            <text>Aplicacion de reserva para clases de ingles</text>
-            <view>
-                <Ionicons name= "search" size={18} color={colors.primario}></Ionicons>
+            <text>Aplicación de reservas de clases</text>
+            <View>
+                <Ionicons name="search" size={18} color={colors.primario} />
                 <TextInput
-                value={busqueda}
+                Value={busqueda}
                 onChangeText={setBusqueda}
-                placeholder= "Ingrese el nombre o el nivel para la busqueda"
-                autoCorrec={false}
-                autoComplete={false}
+                placeholder="ingrese el nombre de la clase"
+                autoCorrect={false}
+                autoComplete="off"
                 />
+ 
+                {busqueda.length > 0 && (
+                    <Ionicons name="close-circle" size={18} color={colors.primario} onPress={() => setBusqueda('')} />
+                )}
+            </View>
+ 
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{flexGrow:0}}    
+            >
                 {
-                    busqueda.length > 0 && (
-                        <Ionicons 
-                            name="close-circle"
-                            size={18}
-                            color={color.primario}
-                            onPress={()=> setBusqueda("")}
-                            />
-                    )
+                    NIVELES.map((item) => (
+                        <NivelChip
+ 
+                        etiqueta={item.etiqueta}
+                        activo={nivel === item.etiqueta}
+                        onPress={() => setNivel(item.etiqueta)}
+                        />
+                    ))
                 }
-            </view>
+ 
+            </ScrollView>
         </view>
-    )
-}
+   
+    )}
