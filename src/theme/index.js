@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { Color } from "react-native/types_generated/Libraries/Animated/AnimatedExports";
+
 
 export const colors = {
     background : '#f1e3e3',
@@ -30,4 +30,4 @@ export  const typhography = {
 
 }
 
-export default{colors,spacign,radius,typhography}
+export default{colors,spacing,radius,typhography}

@@ -13,9 +13,9 @@ export default function Card({clase, onPress}){
         <Image source={{uri: clase.image}}/>
         <View>
             <EtiquetaNivel nivel={clase.nivel}/>
-            <text> {clase.nivel} </text>
-            <text> {clase.profesor.nombre} </text>
-            <text> formatearPrecio({clase.precio}) </text>
+            <Text> {clase.nivel} </Text>
+            <Text> {clase.profesor.nombre} </Text>
+            <Text> formatearPrecio({clase.precio}) </Text>
         </View>
         </Pressable>
     )
