@@ -8,10 +8,12 @@ import {formatearPrecio, CLASES, NIVELES} from '../data/clases';
 import { ScrollView, TextInput } from 'react-native';
 import NivelChip from '../components/NivelChip';
 import Card from '../components/Card';
- import useResponsive from '../hooks/useResponsive';
+import useResponsive from '../hooks/useResponsive';
+import EstadoVacio from '../components/EstadoVacio';
  
 export default function StartScreen({navigation}) {
     const insets = useSafeAreaInsets();
+    const {columnas, paddingHorizontal} = useResponsive();
     const [nivel, setNivel] = useState();
     const [busqueda, setBusqueda] = useState('');
 
@@ -74,6 +76,18 @@ export default function StartScreen({navigation}) {
                 contentContainerStyle={{
                     paddingHorizontal, flexGrow: 1
                 }}
+                numColumns={columnas}
+                ListEmptyComponent={
+                    <EstadoVacio
+                    icono="search-outline"
+                    titulo="No encontramos resultado"
+                    mensaje= "Prueba con otra combinacion de palabras para la busqueda"
+                    onAction={()=>{
+                        setNivel('Todos');
+                        setBusqueda('');
+                    }}
+                />
+                }
             />
         </View>
    
