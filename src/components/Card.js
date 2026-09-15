@@ -1,26 +1,30 @@
-import React from ' react'
+import React from 'react'
 import {View, Text, Image, Pressable, StyleSheet} from 'react-native'
 import EtiquetaNivel from  './EtiquetaNivel'
-import {colors, radius, spacing,typhography} from '. . /theme'
+import { colors, radius, spacing } from '../theme'
 import { formatearPrecio } from '../data/clases'
 
 
 export default function Card({clase, onPress}){
     return(
         <Pressable
-        onPress= {onPress}
-        > 
-        <Image source={{uri: clase.image}}/>
-        <View>
+        onPress={onPress}
+        style={styles.contenedor}
+        >
+        <Image source={{uri: clase.imagen}} style={styles.imagen}/>
+        <View style={styles.contenido}>
             <EtiquetaNivel nivel={clase.nivel}/>
-            <Text> {clase.nivel} </Text>
-            <Text> {clase.profesor.nombre} </Text>
-            <Text> formatearPrecio({clase.precio}) </Text>
+            <Text style={styles.titulo}>{clase.titulo}</Text>
+            <Text>{clase.profesor.nombre}</Text>
+            <Text>{formatearPrecio(clase.precio)}</Text>
         </View>
         </Pressable>
     )
-const style = StyleSheet.create({
-    titulo: {fontSize: 16, color:colors}
-})
-
 }
+
+const styles = StyleSheet.create({
+  contenedor: { backgroundColor: colors.superficie, borderRadius: radius.md, marginBottom: spacing.md, overflow: 'hidden' },
+  imagen: { width: '100%', height: 160 },
+  contenido: { padding: spacing.md, gap: spacing.xs },
+  titulo: { fontSize: 16, fontWeight: '700', color: colors.texto },
+});

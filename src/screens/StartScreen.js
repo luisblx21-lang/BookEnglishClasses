@@ -1,39 +1,36 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {View, Text, StyleSheet, Image, Pressable, FlatList } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import EtiquetaNivel from '../components/EtiquetaNivel';
-import {spacing, colors, typhography} from '../theme';
-import {formatearPrecio, CLASES, NIVELES} from '../data/clases';
-import { ScrollView, TextInput } from 'react-native';
+import { colors, radius, spacing } from '../theme';
+import { CLASES, NIVELES } from '../data/clases';
 import NivelChip from '../components/NivelChip';
-import Card from '../components/Card';
+import Card from "../components/Card";
 import useResponsive from '../hooks/useResponsive';
 import EstadoVacio from '../components/EstadoVacio';
  
 export default function StartScreen({navigation}) {
-    const insets = useSafeAreaInsets();
     const {columnas, paddingHorizontal} = useResponsive();
-    const [nivel, setNivel] = useState();
+    const [nivel, setNivel] = useState('Todos');
     const [busqueda, setBusqueda] = useState('');
 
     const resultados = useMemo(()=>{
         const textoBusqueda = busqueda.trim().toLowerCase();
         return CLASES.filter((clase)=>{
            const coincideNivel = nivel === 'Todos' || clase.nivel === nivel;
-           const coincideTexto = textoBusqueda || textoBusqueda === '' || clase.profesor.nombre.toLowerCase().includes(textoBusqueda) || clase.titulo.toLowerCase().includes(textoBusqueda)
+           const coincideTexto = textoBusqueda === '' || clase.profesor.nombre.toLowerCase().includes(textoBusqueda) || clase.titulo.toLowerCase().includes(textoBusqueda);
            return coincideNivel && coincideTexto
             
         });
     }, [nivel, busqueda]);
  
     return (
-        <View>
+        <View style={styles.pantalla}>
             <Text>Aplicación de reservas de clases</Text>
-            <View>
+            <View style={styles.buscador}>
                 <Ionicons name="search" size={18} color={colors.primario} />
                 <TextInput
-                Value={busqueda}
+                value={busqueda}
+                style={styles.input}
                 onChangeText={setBusqueda}
                 placeholder="ingrese el nombre de la clase"
                 autoCorrect={false}
@@ -54,9 +51,9 @@ export default function StartScreen({navigation}) {
                     NIVELES.map((item) => (
                         <NivelChip
                         key={item}
-                        etiqueta={item.etiqueta}
-                        activo={nivel === item.etiqueta}
-                        onPress={() => setNivel(item.etiqueta)}
+                        etiqueta={item}
+                        activo={nivel === item}
+                        onPress={() => setNivel(item)}
                         />
                     ))
                 }
@@ -65,7 +62,7 @@ export default function StartScreen({navigation}) {
             <FlatList 
                 data={resultados}
                 keyExtractor={(item)=> item.id}
-                renderItem={(item)=>(
+                renderItem={({ item })=>(
                     <Card 
                         clase={item}
                         onPress={()=> navigation.navigate('DetalleClase', {clase:item})}
@@ -93,7 +90,7 @@ export default function StartScreen({navigation}) {
    
     )}
 
-    const style = StyleSheet.create({
+const styles = StyleSheet.create({
   pantalla: { flex: 1, backgroundColor: colors.fondo },
   buscador: {
     flexDirection: 'row',

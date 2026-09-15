@@ -1,9 +1,9 @@
 import react from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import { colors, spacing } from "../theme";
 
-export default function EstadoVacio ({icono= 'calendar-outline'}){
+export default function EstadoVacio ({ icono = 'calendar-outline', titulo, mensaje, onAction }){
     return (
         <View style={styles.contenedor}>
             <View style={styles.circulo}>
@@ -11,6 +11,11 @@ export default function EstadoVacio ({icono= 'calendar-outline'}){
             </View>
             <Text style={styles.titulo}>{titulo}</Text>
             <Text style={styles.mensaje}>{mensaje}</Text>
+            {onAction && (
+              <Pressable style={styles.accion} onPress={onAction}>
+                <Text style={styles.textoAccion}>Limpiar filtros</Text>
+              </Pressable>
+            )}
         </View>
     );
 }
@@ -39,4 +44,6 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
     lineHeight: 20,
   },
+  accion: { marginTop: spacing.lg, paddingVertical: spacing.sm, paddingHorizontal: spacing.lg },
+  textoAccion: { color: colors.primario, fontWeight: '700' },
 });

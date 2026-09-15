@@ -4,7 +4,7 @@ import {colors,spacing,radius,typhography} from '../theme'
 
 export default function EtiquetaNivel( {nivel }){
     return (
-        <View style={[styles.contenedor, {backgroudColor:colors.fondo}]}>
+        <View style={[styles.contenedor, { backgroundColor: colors.fondo }]}>
             <Text style= {styles.texto}> { nivel } </Text>
 
 
@@ -14,7 +14,7 @@ export default function EtiquetaNivel( {nivel }){
 
 const styles = StyleSheet.create ({
     contenedor: {
-        alignSelft: 'auto', 
+        alignSelf: 'flex-start',
         paddingVertical: 3,
         paddingHorizontal: spacing.md,
         borderWidth: 1
